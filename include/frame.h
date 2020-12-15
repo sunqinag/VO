@@ -10,6 +10,9 @@
 namespace myslam {
     // 前向声明：假设有两个类A和B，类A要将类B的对象(或者指正)作为自己的成员使用，并且类B将类A的对象(或者指针)作为自己可以访问的数据，那么这个时候要在a.h中include b.h,同时在b.h 中要include a.h，但是相互包含是不可以的，这个时候就要用到类的前向声明了。
 
+//    struct MapPoint;
+//    struct Feature;
+
     struct Frame {
     public:
         EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
@@ -29,7 +32,7 @@ namespace myslam {
 //    std::vector<std::shared_ptr<Feature>> features_right_;
 
     public:
-        Frame();
+        Frame() {}
 
         Frame(long id, double time_stamp, const SE3 &pose, const Mat &left, const Mat &right);
 

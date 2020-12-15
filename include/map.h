@@ -58,6 +58,9 @@ namespace myslam {
         void CleanMap();
 
     private:
+        // 将旧的关键帧置为不活跃状态
+        void RemoveOldKeyframe();
+        
         std::mutex data_mutex_;
         LandmarksType landmakrks_;  // all landmarks
         KeyframesType keyframes_;   // all key-frames

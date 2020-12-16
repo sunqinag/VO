@@ -22,10 +22,10 @@ namespace myslam
             activate_frames_[frame->keyfemae_id_] = frame;
         }
         
-        // if (activate_frames_.size() > num_activate_keyframe_)
-        // {
-            
-        // }  
+         if (activate_frames_.size() > num_activate_keyframe_)
+         {
+             RemoveOldKeyframe();
+         }
     }
 
     void Map::RemoveOldKeyframe()

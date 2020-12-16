@@ -11,7 +11,7 @@
 
 namespace myslam {
     struct Frame;
-//struct MapPoint;
+struct MapPoint;
 
 /**
  * 2D 特征点
@@ -24,7 +24,7 @@ namespace myslam {
 
         std::weak_ptr<Frame> frame_;  // 持有该feature的frame
         cv::KeyPoint position_;       //2D提取位置
-//     std::weak_ptr<MapPoint> mappoint_; //关联地图点
+        std::weak_ptr<MapPoint> mappoint_; //关联地图点
 
         bool is_outlier_ = false; //是否为异常点
         bool is_on_left_image_ = true;  //标记是否在左图

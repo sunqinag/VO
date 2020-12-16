@@ -32,5 +32,8 @@ set(THIRD_PARTY_LIBS
         )
 
 
-add_executable(VO main.cpp src/frame.cpp include/frame.h src/features.cpp include/features.h src/mappoint.cpp include/mappoint.h src/map.cpp include/map.h src/frontend.cpp include/frontend.h src/config.cpp include/config.h)
+add_executable(VO main.cpp src/frame.cpp include/frame.h src/features.cpp include/features.h
+        src/mappoint.cpp include/mappoint.h src/map.cpp include/map.h
+        src/frontend.cpp include/frontend.h src/config.cpp include/config.h
+        include/camera.h src/camera.cpp include/algorithm.h)
 target_link_libraries(VO ${THIRD_PARTY_LIBS})

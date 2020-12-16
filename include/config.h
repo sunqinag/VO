@@ -19,7 +19,7 @@ namespace myslam{
         static bool SetParameterFile(const std::string &filename);
 
         template <typename T>
-        static T Get(int key){
+        static T Get(const std::string &key){
             return T(Config::config_->file_[key]);
         }
     };

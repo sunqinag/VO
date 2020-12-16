@@ -39,10 +39,43 @@ namespace myslam
         }
 
     private:
+
+
+        /**
+         尝试使用当前帧中保存的立体图像初始化前端_
+         */
+        bool StereoInit();
+
+        /**
+         * 在当前帧中检测左图像中的特征_
+         */
+        int DetectFeatures();
+
+        /**
+         * 找到对应在右图像中的特征 返回找到对应的特征数量
+         */
+         int FindFeaturesInRight();
+
+        /**
+        * 用单张图构建初始化特征
+        */
+         bool BuildInitMap();
+
+
+
+        // data
+        FrontendStatus status_ = FrontendStatus ::INITING;
+
+        Frame::Ptr current_frame_ = nullptr;  //当前帧
+        Frame::Ptr last_frame_ = nullptr;     //上一帧
         Camera::Ptr camera_left_ = nullptr;   // 左侧相机
         Camera::Ptr camera_right_ = nullptr;  // 右侧相机
+
         Map::Ptr map_ = nullptr;
-        FrontendStatus status_ = FrontendStatus::INITING;
+
+
+        SE3 relative_motion_;   //当前帧与上一帧的相对运动,用于估计当前帧pose初值
+        int tracking_inliers_ = 0;  //用于测试新的关键帧
 
         // 参数
         int num_features_=200;

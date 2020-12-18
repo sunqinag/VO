@@ -19,8 +19,8 @@ namespace myslam {
         typedef std::shared_ptr<Frame> Ptr;
 
         unsigned long id_ = 0;
-        unsigned long keyfemae_id_ = 0;
-        bool is_keyfeame_ = false;
+        unsigned long keyframe_id_ = 0;
+        bool is_keyframe_ = false;
         double time_stamp_;
         SE3 pose_;
         std::mutex pose_mutex_;

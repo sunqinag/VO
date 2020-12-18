@@ -21,7 +21,7 @@ namespace myslam {
     void Frame::SetKeyFrame()
     {
         static long keyframe_factory_id = 0;
-        is_keyfeame_ = true;
-        keyfemae_id_ = keyframe_factory_id++;
+        is_keyframe_ = true;
+        keyframe_id_ = keyframe_factory_id++;
     }
 }

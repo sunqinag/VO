@@ -43,13 +43,13 @@ namespace myslam {
         }
 
         //  获取激活地图点
-        LandmarksType GetActivateMapPoints() {
+        LandmarksType GetActiveMapPoints() {
             std::unique_lock<std::mutex> lck(data_mutex_);
             return activate_landmarks_;
         }
 
         // 获取激活关键帧
-        KeyframesType GetAllKeyFrame() {
+        KeyframesType GetActiveKeyFrames() {
             std::unique_lock<std::mutex> lck(data_mutex_);
             return activate_frames_;
         }

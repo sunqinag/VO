@@ -12,14 +12,14 @@ namespace myslam
         current_frame_ = frame;
         // 函数会返回一个输入迭代器，当 find() 函数查找成功时，
         // 其指向的是在 [first, last) 区域内查找到的第一个目标元素；如果查找失败，则该迭代器的指向和 last 相同
-        if (keyframes_.find(frame->keyfemae_id_) == keyframes_.end()){
+        if (keyframes_.find(frame->keyframe_id_) == keyframes_.end()){
             // 当此帧在关键帧列表的末尾时,从后面插入
-            keyframes_.insert(std::make_pair(frame->keyfemae_id_,frame));
-            activate_frames_.insert(std::make_pair(frame->keyfemae_id_,frame));
+            keyframes_.insert(std::make_pair(frame->keyframe_id_,frame));
+            activate_frames_.insert(std::make_pair(frame->keyframe_id_,frame));
         }else{
             // 如果当前帧的id在keyframes_,activate_frames_列表中就替换掉
-            keyframes_[frame->keyfemae_id_] = frame;
-            activate_frames_[frame->keyfemae_id_] = frame;
+            keyframes_[frame->keyframe_id_] = frame;
+            activate_frames_[frame->keyframe_id_] = frame;
         }
         
          if (activate_frames_.size() > num_activate_keyframe_)
@@ -43,6 +43,18 @@ namespace myslam
         }
         
         
+    }
+
+    void Map::InsertMappoint(MapPoint::Ptr mappoint){
+        //该函数会返回一个输入迭代器，当 find() 函数查找成功时，其指向的是在 [first, last) 区域内查找到的第一个目标元素；
+        // 如果查找失败，则该迭代器的指向和 last 相同。
+        if (landmakrks_.find(mappoint->id_) == landmakrks_.end()){
+            landmakrks_.insert(std::make_pair(mappoint->id_,mappoint));
+            activate_landmarks_.insert(std::make_pair(mappoint->id_,mappoint));
+        } else{
+            landmakrks_[mappoint->id_] = mappoint;
+            activate_landmarks_[mappoint->id_] =mappoint;
+        }
     }
 } // namespace myslam
 

@@ -16,7 +16,7 @@ namespace myslam{
         return new_mappoint;
     }
 
-    void MapPoint::RemoveObervation(std::shared_ptr<Feature> feat) {
+    void MapPoint::RemoveObservation(std::shared_ptr<Feature> feat) {
         std::unique_lock<std::mutex> lck(data_mutex_);
         for (auto iter = observations_.begin();iter != observations_.end();iter++) {
             if (iter->lock() == feat){

@@ -13,6 +13,10 @@
 
 namespace myslam
 {
+
+    class Viewer;
+    class Backend;
+
     enum class FrontendStatus {INITING,TRACKING_GOOD,TRACKING_BAD,LOST};
 
     // 全短估计当前帧Pose,在班组关键帧条件时向地图加入关键帧并触发优化
@@ -32,7 +36,11 @@ namespace myslam
 
         FrontendStatus GetStatus() const { return status_;}
 
-        void SetCaneras(Camera::Ptr left,Camera::Ptr right)
+        void SetBackend(std::shared_ptr<Backend> backend) { backend_ = backend; }
+
+        void SetViewer(std::shared_ptr<Viewer> viewer) { viewer_ = viewer; }
+
+        void SetCameras(Camera::Ptr left,Camera::Ptr right)
         {
             camera_left_ = left;
             camera_right_ = right;
@@ -40,6 +48,11 @@ namespace myslam
 
     private:
 
+        /**
+         * Track in normal mode
+         * @return true if success
+         */
+        bool Track();
 
         /**
          尝试使用当前帧中保存的立体图像初始化前端_
@@ -61,7 +74,35 @@ namespace myslam
         */
          bool BuildInitMap();
 
+        /**
+         * 追踪上一帧 返回追踪到的点
+         */
+        int TrackLastFrame();
 
+        /**
+         * 估计当前帧的位姿
+         */
+        int EstimateCurrentPose();
+
+        /**
+         * 将当前帧设置为关键帧,并添加进后端
+         */
+         bool InsertKeyFrame();
+
+        /**
+         *将关键帧中的要素设置为地图点的新观察
+         */
+         void SetObservationsForKeyFrame();
+
+        /**
+         * 三角化当前帧的2D坐标
+         */
+         int TriangulateNewPoints();
+
+        /**
+        * Reset when lost
+        */
+        bool Reset();
 
         // data
         FrontendStatus status_ = FrontendStatus ::INITING;
@@ -72,7 +113,8 @@ namespace myslam
         Camera::Ptr camera_right_ = nullptr;  // 右侧相机
 
         Map::Ptr map_ = nullptr;
-
+        std::shared_ptr<Backend> backend_ = nullptr;
+        std::shared_ptr<Viewer> viewer_ = nullptr;
 
         SE3 relative_motion_;   //当前帧与上一帧的相对运动,用于估计当前帧pose初值
         int tracking_inliers_ = 0;  //用于测试新的关键帧

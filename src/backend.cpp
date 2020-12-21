@@ -12,7 +12,8 @@
 
 namespace myslam {
     Backend::Backend() {
-        std::cout << "Backend 的构造函数还未实现" << std::endl;
+        backend_running_.store(true);
+        backend_thread_ = std::thread(std::bind(&Backend::BackendLoop,this));
     }
 
     void Backend::UpdateMap() {

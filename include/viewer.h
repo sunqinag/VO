@@ -34,7 +34,18 @@ namespace myslam{
          // 更新地图
          void UpdateMap();
 
+         /// plot the features in current frame into an image
+         cv::Mat PlotFrameImage();
+
      private:
+
+         void ThreadLoop();
+
+         void DrawFrame(Frame::Ptr frame, const float* color);
+
+         void DrawMapPoints();
+
+         void FollowCurrentFrame(pangolin::OpenGlRenderState& vis_camera);
 
          Frame::Ptr current_frame_ = nullptr;
          Map::Ptr map_ = nullptr;

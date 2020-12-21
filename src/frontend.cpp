@@ -34,16 +34,19 @@ namespace myslam {
     bool Frontend::AddFrame(Frame::Ptr frame) {
         current_frame_ = frame;
 
-        switch (status_) { //必须是一个整型或枚举类型，或者是一个 class 类型
+        //必须是一个整型或枚举类型，或者是一个 class 类型
+        switch (status_) {
             case FrontendStatus::INITING:
                 StereoInit();
                 break;
             case FrontendStatus::TRACKING_GOOD:
             case FrontendStatus::TRACKING_BAD:
                 Track();
+                break;
 
             case FrontendStatus::LOST:
                 Reset();
+                break;
 
         }
     }

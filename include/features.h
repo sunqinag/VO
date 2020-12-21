@@ -10,8 +10,9 @@
 #include "common_include.h"
 
 namespace myslam {
+    
     struct Frame;
-struct MapPoint;
+    struct MapPoint;
 
 /**
  * 2D 特征点

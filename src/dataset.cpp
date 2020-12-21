@@ -68,8 +68,10 @@ namespace myslam {
         }
 
         cv::Mat image_left_resized, image_right_resized;
-        cv::resize(image_left, image_left_resized, cv::Size(), 0.5, 0.5, cv::INTER_NEAREST);
-        cv::resize(image_right, image_right_resized, cv::Size(), 0.5, 0.5, cv::INTER_NEAREST);
+        cv::resize(image_left, image_left_resized, cv::Size(), 0.5, 0.5,
+                   cv::INTER_NEAREST);
+        cv::resize(image_right, image_right_resized, cv::Size(), 0.5, 0.5,
+                   cv::INTER_NEAREST);
 
         auto new_frame = Frame::CreateFrame();
         new_frame->left_img_ = image_left_resized;

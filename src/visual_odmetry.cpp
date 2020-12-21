@@ -28,10 +28,10 @@ namespace myslam {
         frontend_->SetBackend(backend_);
         frontend_->SetMap(map_);
         frontend_->SetViewer(viewer_);
-        frontend_->SetCameras(dataset_->GetCamera(0),dataset_->GetCamera(1));
+        frontend_->SetCameras(dataset_->GetCamera(0), dataset_->GetCamera(1));
 
         backend_->SetMap(map_);
-        backend_->SetCameras(dataset_->GetCamera(0),dataset_->GetCamera(1));
+        backend_->SetCameras(dataset_->GetCamera(0), dataset_->GetCamera(1));
 
         viewer_->SetMap(map_);
 
@@ -39,16 +39,17 @@ namespace myslam {
     }
 
     void VisualOdmetry::Run() {
-        while (1){
-            std::cout<<"VO is running"<<std::endl;
-            if (Step() == false){
+        while (1) {
+            std::cout << "VO is running" << std::endl;
+            if (Step() == false) {
+                std::cout << "Step() 返回false" << std::endl;
                 break;
             }
         }
 
         backend_->Stop();
         viewer_->Close();
-        std::cout<<"VO exit"<<std::endl;
+        std::cout << "VO exit" << std::endl;
     }
 
     bool VisualOdmetry::Step() {
@@ -58,8 +59,9 @@ namespace myslam {
         auto t1 = std::chrono::steady_clock::now();
         bool success = frontend_->AddFrame(new_frame);
         auto t2 = std::chrono::steady_clock::now();
-        auto time_out = std::chrono::duration_cast<std::chrono::duration<double>>(t2-t1);
-        std::cout<<"VO cost time: "<<time_out.count()<<" seconds";
+        auto time_out = std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
+        std::cout << "VO cost time: " << time_out.count() << " seconds" << "\n" << std::endl;
+        std::cout << "success: " << success << std::endl;
         return success;
     }
 }

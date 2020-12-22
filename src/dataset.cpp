@@ -20,7 +20,7 @@ namespace myslam {
         // read camera intrinsics and extrinsics
         ifstream fin(dataset_path_ + "/calib.txt");
         if (!fin) {
-            std::cout << "cannot find " << dataset_path_ << "/calib.txt";
+            LOG(INFO) << "cannot find " << dataset_path_ << "/calib.txt";
             return false;
         }
 
@@ -45,7 +45,7 @@ namespace myslam {
             Camera::Ptr new_camera(new Camera(K(0, 0), K(1, 1), K(0, 2), K(1, 2),
                                               t.norm(), SE3(SO3(), t)));
             cameras_.push_back(new_camera);
-            std::cout << "Camera " << i << " extrinsics" << t.transpose();
+            LOG(INFO) << "Camera " << i << " extrinsics" << t.transpose();
         }
         fin.close();
         current_image_index_ = 0;
@@ -55,7 +55,7 @@ namespace myslam {
     Frame::Ptr Dataset::NextFrame() {
         boost::format fmt("%s/image_%d/%06d.png");
         cv::Mat image_left, image_right;
-
+        LOG(INFO)<<"image index: "<<current_image_index_;
         // read image
         image_left = cv::imread((fmt % dataset_path_ % 0 % current_image_index_).str(),
                                 cv::IMREAD_GRAYSCALE);
@@ -63,7 +63,6 @@ namespace myslam {
                                  cv::IMREAD_GRAYSCALE);
 
         if (image_left.data == nullptr || image_right.data == nullptr) {
-            std::cout << "connot find images at index " << current_image_index_;
             return nullptr;
         }
 

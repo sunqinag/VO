@@ -40,28 +40,27 @@ namespace myslam {
 
     void VisualOdmetry::Run() {
         while (1) {
-            std::cout << "VO is running" << std::endl;
+            LOG(INFO)<<"VO is running";
             if (Step() == false) {
-                std::cout << "Step() 返回false" << std::endl;
                 break;
             }
         }
 
         backend_->Stop();
         viewer_->Close();
-        std::cout << "VO exit" << std::endl;
     }
 
     bool VisualOdmetry::Step() {
         Frame::Ptr new_frame = dataset_->NextFrame();
-        if (new_frame == nullptr) return false;
+        if (new_frame == nullptr){
+            return false;
+        }
 
         auto t1 = std::chrono::steady_clock::now();
         bool success = frontend_->AddFrame(new_frame);
         auto t2 = std::chrono::steady_clock::now();
         auto time_out = std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);
-        std::cout << "VO cost time: " << time_out.count() << " seconds" << "\n" << std::endl;
-        std::cout << "success: " << success << std::endl;
+        LOG(INFO) << "VO cost time: " << time_out.count() << " seconds";
         return success;
     }
 }

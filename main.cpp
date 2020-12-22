@@ -6,7 +6,7 @@ using namespace std;
 int main()
 {
     string config_file = "/home/xtcsun/CLionProjects/VO/config/default.yaml";
-    cout<<"进入VO"<<endl;
+    LOG(INFO)<<"进入VO";
     myslam::VisualOdmetry::Ptr vo(new myslam::VisualOdmetry(config_file));
     bool success = vo->Init();
 //    assert(vo->Init() == true);

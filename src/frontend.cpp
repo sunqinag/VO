@@ -47,11 +47,14 @@ namespace myslam {
             case FrontendStatus::LOST:
                 Reset();
                 break;
-
         }
+
+        last_frame_ = current_frame_;
+        return true;
     }
 
     bool Frontend::StereoInit() {
+        LOG(INFO)<<"进入StereoInit";
         int num_features_left = DetectFeatures(); //监测当前帧左图像中的特征,返回数量keypoint保存在当前帧
         int num_coor_features = FindFeaturesInRight();
         if (num_coor_features < num_features_init_) {
@@ -88,7 +91,8 @@ namespace myslam {
                     Feature::Ptr(new Feature(current_frame_, kp)));
             cnt_detected++;
         }
-        std::cout << "Detect " << cnt_detected << " new features";
+
+        LOG(INFO) << "Detect " << cnt_detected << " new features";
         return cnt_detected;
     }
 
@@ -128,7 +132,7 @@ namespace myslam {
                 current_frame_->features_right_.push_back(nullptr);
             }
         }
-        std::cout << "Find " << num_good_pts << " in the right image";
+        LOG(INFO) << "Find " << num_good_pts << " in the right image.";
         return num_good_pts;
     }
 
@@ -160,12 +164,15 @@ namespace myslam {
         }
         current_frame_->SetKeyFrame();
         map_->InsertKeyFrame(current_frame_);
-        //backend_->UpdateMap(); // 还未实现
-        std::cout << "Initial map created with " << cnt_init_landmarks << " map points" << std::endl;
+//        LOG(INFO)<<"backend_->UpdateMap(); // 还未实现";
+        backend_->UpdateMap();
+        LOG(INFO) << "Initial map created with " << cnt_init_landmarks
+                  << " map points";
         return true;
     }
 
     bool Frontend::Track() {
+        LOG(INFO)<<"进入Track";
         if (last_frame_) {
             current_frame_->SetPose(relative_motion_ * last_frame_->Pose());
         }
@@ -183,6 +190,7 @@ namespace myslam {
             // lost
             status_ = FrontendStatus::LOST;
         }
+
         InsertKeyFrame();
         relative_motion_ = current_frame_->Pose() * last_frame_->Pose().inverse();
 
@@ -199,7 +207,8 @@ namespace myslam {
         current_frame_->SetKeyFrame();
         map_->InsertKeyFrame(current_frame_);
 
-        std::cout << "Set frame " << current_frame_->id_ << "as keyframe" << current_frame_->keyframe_id_;
+        LOG(INFO) << "Set frame " << current_frame_->id_ << " as keyframe "
+                  << current_frame_->keyframe_id_;
 
         SetObservationsForKeyFrame();
         DetectFeatures(); //提取新的特征点
@@ -247,7 +256,7 @@ namespace myslam {
                 }
             }
         }
-        std::cout << "new  landmarks: " << cnt_triangulated_pts;
+        LOG(INFO) << "new landmarks: " << cnt_triangulated_pts;
         return cnt_triangulated_pts;
     }
 
@@ -328,12 +337,12 @@ namespace myslam {
             }
         }
 
-        std::cout << "Outlier/Inlier in pose estimation: " << cnt_outlier << "/"
+        LOG(INFO) << "Outlier/Inlier in pose estimating: " << cnt_outlier << "/"
                   << features.size() - cnt_outlier;
         //设置位姿和异常
         current_frame_->SetPose(vertex_pose->estimate());
 
-        std::cout << "Current Pose=\n" << current_frame_->Pose().matrix();
+        LOG(INFO) << "Current Pose = \n" << current_frame_->Pose().matrix();
 
         for (auto &feat: features) {
             if (feat->is_outlier_) {
@@ -376,12 +385,13 @@ namespace myslam {
                 num_good_pts++;
             }
         }
-        std::cout << "Find " << num_good_pts << " in the last image";
+
+        LOG(INFO) << "Find " << num_good_pts << " in the last image.";
         return num_good_pts;
     }
 
     bool Frontend::Reset() {
-        std::cout << "Reset is not inplemented." << std::endl;
+        LOG(INFO) << "Reset is not implemented. ";
         return true;
     }
 } // namespace myslam

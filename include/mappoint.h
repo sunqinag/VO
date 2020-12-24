@@ -56,7 +56,7 @@ namespace myslam {
             return observations_;
         }
 
-        static MapPoint::Ptr CreateMewMappoint();
+        static MapPoint::Ptr CreateNewMappoint();
 
 
     };

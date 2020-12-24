@@ -33,7 +33,6 @@ namespace myslam {
 
     bool Frontend::AddFrame(Frame::Ptr frame) {
         current_frame_ = frame;
-
         //必须是一个整型或枚举类型，或者是一个 class 类型
         switch (status_) {
             case FrontendStatus::INITING:
@@ -56,7 +55,7 @@ namespace myslam {
     bool Frontend::StereoInit() {
         LOG(INFO)<<"进入StereoInit";
         int num_features_left = DetectFeatures(); //监测当前帧左图像中的特征,返回数量keypoint保存在当前帧
-        int num_coor_features = FindFeaturesInRight();
+        int num_coor_features = FindFeaturesInRight(); // 左图特征点在右图的匹配程度
         if (num_coor_features < num_features_init_) {
             return false;
         }
@@ -76,6 +75,7 @@ namespace myslam {
     int Frontend::DetectFeatures() {
         // 检测当前帧左图像中的特征,返回数量keypoint保存在当前帧
         cv::Mat mask(current_frame_->left_img_.size(), CV_8UC1, 255);
+        //在初始化的时候还没有特征点呢,这个for循环会跳过
         for (auto &feat : current_frame_->features_left_) {
             // 将现有的左图中的特征点都画一个小小的框,放到mask上
             cv::rectangle(mask, feat->position_.pt - cv::Point2f(10, 10),
@@ -84,8 +84,9 @@ namespace myslam {
 
         // 检测现有左图,将特征点和左图共建Feature,放到列表最后
         std::vector<cv::KeyPoint> keypoints;
-        gftt_->detect(current_frame_->left_img_, keypoints, mask);
+        gftt_->detect(current_frame_->left_img_, keypoints, mask);//检测特征点
         int cnt_detected = 0;
+        // 初始化的时候将所有从左图检测到的特征点都访入容器中
         for (auto &kp : keypoints) {
             current_frame_->features_left_.push_back(
                     Feature::Ptr(new Feature(current_frame_, kp)));
@@ -97,11 +98,12 @@ namespace myslam {
     }
 
     int Frontend::FindFeaturesInRight() {
-        // 在右图使用LK光流估算位资
+        // 在右图使用LK光流估算位姿
         std::vector<cv::Point2f> kps_left, kps_right;
         for (auto &kp : current_frame_->features_left_) {
             kps_left.push_back(kp->position_.pt);
             auto mp = kp->mappoint_.lock();
+            // 初始化过程自然是没有map的,这里将会跳过
             if (mp) { // 遍历左图特征,如果这个特征有关联的地图点,就将地图点位姿从世界坐标系转为像素坐标系,并保存到kps_right
                 // use projected points as initial guess
                 auto px = camera_right_->world2pixel(mp->pos_, current_frame_->Pose());
@@ -112,6 +114,7 @@ namespace myslam {
             }
         }
 
+        // 使用LK光流金字塔进行两帧之间的差分估算
         std::vector<uchar> status;
         Mat error;
         cv::calcOpticalFlowPyrLK(
@@ -143,7 +146,7 @@ namespace myslam {
             if (current_frame_->features_right_[i] == nullptr)
                 continue;
             // create map point from triangulation
-            std::vector<Vec3> points{// 不是应该输入深度嘛?
+            std::vector<Vec3> points{ // 将左图和右图特征点从像素坐标转为相机归一化坐标
                     camera_left_->pixel2camera(
                             Vec2(current_frame_->features_left_[i]->position_.pt.x,
                                  current_frame_->features_left_[i]->position_.pt.y)),
@@ -151,8 +154,9 @@ namespace myslam {
                                                      current_frame_->features_right_[i]->position_.pt.y))};
             Vec3 pworld = Vec3::Zero();
 
+            // 初次计算poses未知,三角化失败
             if (triangulation(poses, points, pworld) && pworld[2] > 0) {
-                auto new_map_point = MapPoint::CreateMewMappoint();
+                auto new_map_point = MapPoint::CreateNewMappoint();
                 new_map_point->SetPos(pworld);
                 new_map_point->AddObservation(current_frame_->features_left_[i]);
                 new_map_point->AddObservation(current_frame_->features_right_[i]);
@@ -163,8 +167,8 @@ namespace myslam {
             }
         }
         current_frame_->SetKeyFrame();
+        // 将当前帧插入map但里面起到控制作用的是keyframes_和activate_frames_两个变量
         map_->InsertKeyFrame(current_frame_);
-//        LOG(INFO)<<"backend_->UpdateMap(); // 还未实现";
         backend_->UpdateMap();
         LOG(INFO) << "Initial map created with " << cnt_init_landmarks
                   << " map points";
@@ -199,8 +203,10 @@ namespace myslam {
     }
 
     bool Frontend::InsertKeyFrame() {
+        /// 关键帧就是特征点小于阈值的帧,需要重新监测特征点
         if (tracking_inliers_ >= num_features_needed_for_keyframe_) {
-            // 仍然拥有足够多的特征点,不要放进关键帧中
+            // 仍然拥有足够多的特征点,不要放进关键帧中,
+            // 虽然没放入关键帧中但却在前端显示了,红色的框不是关键帧而是固定时间间隔的帧
             return false;
         }
         // 当前帧是一个新的关键帧
@@ -243,7 +249,7 @@ namespace myslam {
                 Vec3 pworld = Vec3::Zero();
 
                 if (triangulation(poses, points, pworld) && pworld[2] > 0) {
-                    auto new_map_point = MapPoint::CreateMewMappoint();
+                    auto new_map_point = MapPoint::CreateNewMappoint();
                     pworld = current_pose_Twc * pworld;
                     new_map_point->SetPos(pworld);
                     new_map_point->AddObservation(current_frame_->features_left_[i]);
@@ -270,23 +276,29 @@ namespace myslam {
 
     int Frontend::EstimateCurrentPose() {
         // setup g20
-        typedef g2o::BlockSolver_6_3 BlockSolverType;
+        typedef g2o::BlockSolver_6_3 BlockSolverType; //每个误差项优化变量维度为6,误差维度为1
+        // 第一步: 创建一个线性求解器LinearSolver
         typedef g2o::LinearSolverDense<BlockSolverType::PoseMatrixType> LinearSolverTye;
+        // 第二步: 创建Solver并用上面定义的线性求解器初始化,
+        // 这里创建了总求解器,从GN,LM,DogLog中选一个,用线性求解器初始化
         auto solver = new g2o::OptimizationAlgorithmLevenberg(
                 g2o::make_unique<BlockSolverType>(g2o::make_unique<LinearSolverTye>()));
-        g2o::SparseOptimizer optimizer;
-        optimizer.setAlgorithm(solver);
+        // 第四步: 创建终极大boss,稀疏化优化器SparseOptimizer
+        g2o::SparseOptimizer optimizer;  //图模型
+        optimizer.setAlgorithm(solver);  //设置求解器
+//        optimizer.setVerbose(true);  // 打开调试输出
 
-        // vertex
+        // 第五步: 定义图的顶点和边,并添加到SparseOptimizer中
+        // vertex  设置顶点
         VertexPose *vertex_pose = new VertexPose();
-        vertex_pose->setId(0);
-        vertex_pose->setEstimate(current_frame_->Pose());
-        optimizer.addVertex(vertex_pose);
+        vertex_pose->setId(0); //定义节点编号
+        vertex_pose->setEstimate(current_frame_->Pose()); //设定初始值
+        optimizer.addVertex(vertex_pose); // 添加到SparseOptimizer中
 
         // K
         Mat33 K = camera_left_->K();
 
-        // edges
+        // edges  往图中增加边
         int index = 1;
         std::vector<EdgeProjectionPoseOnly *> edges;
         std::vector<Feature::Ptr> features;
@@ -296,10 +308,10 @@ namespace myslam {
                 features.push_back(current_frame_->features_left_[i]);
                 EdgeProjectionPoseOnly *edge = new EdgeProjectionPoseOnly(mp->pos_, K);
                 edge->setId(index);
-                edge->setVertex(0, vertex_pose);
+                edge->setVertex(0, vertex_pose); //设置链接的顶点
                 edge->setMeasurement(
-                        toVec2(current_frame_->features_left_[i]->position_.pt));
-                edge->setInformation(Eigen::Matrix2d::Identity());
+                        toVec2(current_frame_->features_left_[i]->position_.pt));// 观测数值
+                edge->setInformation(Eigen::Matrix2d::Identity()); // 协方差矩阵之逆,不过这里好性存储的是协方差矩阵
                 edge->setRobustKernel(new g2o::RobustKernelHuber);
                 edges.push_back(edge);
                 optimizer.addEdge(edge);
@@ -311,6 +323,7 @@ namespace myslam {
         int cnt_outlier = 0;
         for (int iteration = 0; iteration < 4; ++iteration) {
             vertex_pose->setEstimate(current_frame_->Pose());
+            // 第六步: 设置优化参数,开始执行优化
             optimizer.initializeOptimization();
             optimizer.optimize(10);
             cnt_outlier = 0;
@@ -321,7 +334,7 @@ namespace myslam {
                 if (features[i]->is_outlier_) {
                     e->computeError();
                 }
-                if (e->chi2() > chi2_h) {
+                if (e->chi2() > chi2_h) { // 某条边的chi2():chi2是最小二乘问题中该边的代价，omega是该边的信息矩阵大于阈值就是异常值,
                     features[i]->is_outlier_ = true;
                     e->setLevel(1);
                     cnt_outlier++;
@@ -333,7 +346,6 @@ namespace myslam {
                 if (iteration == 2) {
                     e->setRobustKernel(nullptr);
                 }
-
             }
         }
 
@@ -357,7 +369,7 @@ namespace myslam {
         // 用右图使用LK光流来估计位姿
         std::vector<cv::Point2f> kps_last, kps_current;
         for (auto &kp: last_frame_->features_left_) {
-            if (kp->mappoint_.lock()) {
+            if (kp->mappoint_.lock()) { //keypoint有没有关联到mappoint,
                 // use project point
                 auto mp = kp->mappoint_.lock();
                 auto px = camera_left_->world2pixel(mp->pos_, current_frame_->Pose());
@@ -376,7 +388,7 @@ namespace myslam {
                 cv::Size(11, 11), 3, cv::TermCriteria(cv::TermCriteria::COUNT + cv::TermCriteria::EPS, 30,
                                                       0.01), cv::OPTFLOW_USE_INITIAL_FLOW);
         int num_good_pts = 0;
-        for (size_t i = 0; i < status.size(); i++) {
+        for (size_t i = 0; i < status.size(); i++) { //用LK金字塔返回的status分辨是否为匹配的上的特征点
             if (status[i]) {
                 cv::KeyPoint kp(kps_current[i], 7);
                 Feature::Ptr feature(new Feature(current_frame_, kp));

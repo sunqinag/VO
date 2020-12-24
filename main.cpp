@@ -5,11 +5,12 @@ using namespace std;
 
 int main()
 {
-    string config_file = "/home/xtcsun/CLionProjects/VO/config/default.yaml";
-    LOG(INFO)<<"进入VO";
-    myslam::VisualOdmetry::Ptr vo(new myslam::VisualOdmetry(config_file));
-    bool success = vo->Init();
+//    google::ParseCommandLineFlags(&argc, &argv, true);
+    string FLAGS_config_file = "/home/xtcsun/Github/VO/config/default.yaml";
+    myslam::VisualOdmetry::Ptr vo(
+            new myslam::VisualOdmetry(FLAGS_config_file));
 //    assert(vo->Init() == true);
+    vo->Init();
     vo->Run();
 
     return 0;

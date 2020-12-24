@@ -42,8 +42,8 @@ namespace myslam {
 
             std::unique_lock<std::mutex> locl(viewer_data_mutex_);
             if (current_frame_) {
-                DrawFrame(current_frame_, green);
-                FollowCurrentFrame(vis_camera);
+                DrawFrame(current_frame_, green); //画追踪的绿框
+                FollowCurrentFrame(vis_camera); //跟随视角
 
                 cv::Mat img = PlotFrameImage();
                 cv::imshow("image", img);
@@ -51,13 +51,13 @@ namespace myslam {
             }
 
             if (map_) {
-                DrawMapPoints();
+                DrawMapPoints();//画3d点
             }
 
             pangolin::FinishFrame();
             usleep(5000);
         }
-        std::cout << "Stop viewer" << std::endl;
+        LOG(INFO)<< "Stop viewer";
     }
 
     void Viewer::DrawMapPoints() {

@@ -18,13 +18,13 @@ namespace myslam {
 
     void Backend::UpdateMap() {
         std::unique_lock<std::mutex> lck(data_mutex_);
-        map_update_.notify_one(); // ??
+        map_update_.notify_one(); // 随即唤醒一个等待的线程,在这是唤醒map_update_线程
     }
 
     void Backend::Stop() {
         backend_running_.store(false);
         map_update_.notify_one();
-        backend_thread_.join();
+        backend_thread_.join(); //join()作用:主线程的等待该子线程完成，然后主线程再继续执行
     }
 
     void Backend::BackendLoop() {

@@ -21,15 +21,15 @@
 
 namespace myslam {
 /// vertex and edges used in g2o ba
-/// 位姿顶点
+/// 位姿顶点 : 参考教程:从零开始一起学习SLAM
 class VertexPose : public g2o::BaseVertex<6, SE3> {
    public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
 
-    virtual void setToOriginImpl() override { _estimate = SE3(); }
+    virtual void setToOriginImpl() override { _estimate = SE3(); } //顶点重置函数，设定被优化变量的原始值。
 
     /// left multiplication on SE3
-    virtual void oplusImpl(const double *update) override {
+    virtual void oplusImpl(const double *update) override { //顶点更新函数。非常重要的一个函数，主要用于优化过程中增量△x 的计算。我们根据增量方程计算出增量之后，就是通过这个函数对估计值进行调整的
         Vec6 update_eigen;
         update_eigen << update[0], update[1], update[2], update[3], update[4],
             update[5];

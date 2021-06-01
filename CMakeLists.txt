@@ -44,6 +44,7 @@ set(THIRD_PARTY_LIBS
         g2o_core g2o_stuff g2o_types_sba g2o_solver_csparse g2o_csparse_extension
         #        ${GTEST_BOTH_LIBRARIES}
                 ${GLOG_LIBRARIES}
+        ${Sophus_LIBRARIES} fmt
         #        ${GFLAGS_LIBRARIES}
         pthread
         ${CSPARSE_LIBRARY}

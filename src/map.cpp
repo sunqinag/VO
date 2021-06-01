@@ -39,7 +39,7 @@ namespace myslam
             // https://blog.csdn.net/tcx1992/article/details/80928790
             // second就是相当于value
             if (kf.second == current_frame_) continue; //将本帧跳过
-            auto dis = (kf.second->Pose()*Twc).log().norm(); //
+            auto dis = (kf.second->Pose()*Twc).log().norm();
         }
         
         

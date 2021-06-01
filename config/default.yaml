@@ -2,7 +2,7 @@
 # data
 # the tum dataset directory, change it to yours! 
 # dataset_dir: /media/xiang/Data/Dataset/Kitti/dataset/sequences/00
-dataset_dir: /home/xtcsun/Data/kitti/sequences/07
+dataset_dir: /media/xtcsun/e58c5409-4d15-4c21-b7a0-623f13653d53/Data/kitti/sequences/00
 
 # camera intrinsics
 camera.fx: 517.3

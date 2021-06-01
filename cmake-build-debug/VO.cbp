@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="VO"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\usr\;CMake Files\..\..\..\..\usr\local\;CMake Files\..\..\..\..\usr\local\share\;CMake Files\..\..\..\..\usr\local\share\OpenCV\;CMake Files\..\..\..\..\usr\local\lib\;CMake Files\..\..\..\..\usr\local\lib\cmake\;CMake Files\..\..\..\..\usr\local\lib\cmake\Pangolin\;CMake Files\..\..\..\..\media\;CMake Files\..\..\..\..\media\xtcsun\;CMake Files\..\..\..\..\media\xtcsun\e58c5409-4d15-4c21-b7a0-623f13653d53\;CMake Files\..\..\..\..\media\xtcsun\e58c5409-4d15-4c21-b7a0-623f13653d53\App\;CMake Files\..\..\..\..\media\xtcsun\e58c5409-4d15-4c21-b7a0-623f13653d53\App\Sophus+eigen3.3.9\;CMake Files\..\..\..\..\media\xtcsun\e58c5409-4d15-4c21-b7a0-623f13653d53\App\Sophus+eigen3.3.9\Sophus\;CMake Files\..\..\..\..\media\xtcsun\e58c5409-4d15-4c21-b7a0-623f13653d53\App\Sophus+eigen3.3.9\Sophus\build\;CMake Files\cmake_modules\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/xtcsun/CLionProjects/VO/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j48 -f &quot;/home/xtcsun/CLionProjects/VO/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j48 -f &quot;/home/xtcsun/CLionProjects/VO/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j48 -f &quot;/home/xtcsun/CLionProjects/VO/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j48 -f &quot;/home/xtcsun/CLionProjects/VO/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/xtcsun/CLionProjects/VO/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j48 -f &quot;/home/xtcsun/CLionProjects/VO/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j48 -f &quot;/home/xtcsun/CLionProjects/VO/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j48 -f &quot;/home/xtcsun/CLionProjects/VO/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j48 -f &quot;/home/xtcsun/CLionProjects/VO/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/xtcsun/CLionProjects/VO/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j48 -f &quot;/home/xtcsun/CLionProjects/VO/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j48 -f &quot;/home/xtcsun/CLionProjects/VO/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j48 -f &quot;/home/xtcsun/CLionProjects/VO/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j48 -f &quot;/home/xtcsun/CLionProjects/VO/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="VO">
+				<Option output="/home/xtcsun/CLionProjects/VO/cmake-build-debug/VO" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/xtcsun/CLionProjects/VO/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/media/xtcsun/e58c5409-4d15-4c21-b7a0-623f13653d53/App/Sophus+eigen3.3.9/Sophus"/>
+					<Add directory="/usr/include/suitesparse"/>
+					<Add directory="/usr/local/include/eigen3"/>
+					<Add directory="/usr/local/include/opencv"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j48 -f &quot;/home/xtcsun/CLionProjects/VO/cmake-build-debug/Makefile&quot;  VERBOSE=1 VO"/>
+					<CompileFile command="/usr/bin/make -j48 -f &quot;/home/xtcsun/CLionProjects/VO/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j48 -f &quot;/home/xtcsun/CLionProjects/VO/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j48 -f &quot;/home/xtcsun/CLionProjects/VO/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="VO/fast">
+				<Option output="/home/xtcsun/CLionProjects/VO/cmake-build-debug/VO" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/xtcsun/CLionProjects/VO/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/media/xtcsun/e58c5409-4d15-4c21-b7a0-623f13653d53/App/Sophus+eigen3.3.9/Sophus"/>
+					<Add directory="/usr/include/suitesparse"/>
+					<Add directory="/usr/local/include/eigen3"/>
+					<Add directory="/usr/local/include/opencv"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j48 -f &quot;/home/xtcsun/CLionProjects/VO/cmake-build-debug/Makefile&quot;  VERBOSE=1 VO/fast"/>
+					<CompileFile command="/usr/bin/make -j48 -f &quot;/home/xtcsun/CLionProjects/VO/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j48 -f &quot;/home/xtcsun/CLionProjects/VO/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j48 -f &quot;/home/xtcsun/CLionProjects/VO/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/include/algorithm.h">
+			<Option target="VO"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/include/backend.h">
+			<Option target="VO"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/include/camera.h">
+			<Option target="VO"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/include/config.h">
+			<Option target="VO"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/include/dataset.h">
+			<Option target="VO"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/include/features.h">
+			<Option target="VO"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/include/frame.h">
+			<Option target="VO"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/include/frontend.h">
+			<Option target="VO"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/include/map.h">
+			<Option target="VO"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/include/mappoint.h">
+			<Option target="VO"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/include/viewer.h">
+			<Option target="VO"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/include/visual_odmetry.h">
+			<Option target="VO"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/main.cpp">
+			<Option target="VO"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/src/backend.cpp">
+			<Option target="VO"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/src/camera.cpp">
+			<Option target="VO"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/src/config.cpp">
+			<Option target="VO"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/src/dataset.cpp">
+			<Option target="VO"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/src/features.cpp">
+			<Option target="VO"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/src/frame.cpp">
+			<Option target="VO"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/src/frontend.cpp">
+			<Option target="VO"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/src/map.cpp">
+			<Option target="VO"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/src/mappoint.cpp">
+			<Option target="VO"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/src/viewer.cpp">
+			<Option target="VO"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/src/visual_odmetry.cpp">
+			<Option target="VO"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/../../../../usr/local/share/OpenCV/OpenCVConfig-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\share\OpenCV\"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/../../../../usr/local/share/OpenCV/OpenCVConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\share\OpenCV\"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/../../../../usr/local/share/OpenCV/OpenCVModules-release.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\share\OpenCV\"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/../../../../usr/local/share/OpenCV/OpenCVModules.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\share\OpenCV\"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/../../../../usr/local/lib/cmake/Pangolin/PangolinConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\Pangolin\"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/../../../../usr/local/lib/cmake/Pangolin/PangolinConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\Pangolin\"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/../../../../usr/local/lib/cmake/Pangolin/PangolinTargets-release.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\Pangolin\"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/../../../../usr/local/lib/cmake/Pangolin/PangolinTargets.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\local\lib\cmake\Pangolin\"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/../../../../media/xtcsun/e58c5409-4d15-4c21-b7a0-623f13653d53/App/Sophus+eigen3.3.9/Sophus/build/SophusConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\media\xtcsun\e58c5409-4d15-4c21-b7a0-623f13653d53\App\Sophus+eigen3.3.9\Sophus\build\"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/cmake_modules/FindCSparse.cmake">
+			<Option virtualFolder="CMake Files\cmake_modules\"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/cmake_modules/FindG2O.cmake">
+			<Option virtualFolder="CMake Files\cmake_modules\"/>
+		</Unit>
+		<Unit filename="/home/xtcsun/CLionProjects/VO/cmake_modules/FindGlog.cmake">
+			<Option virtualFolder="CMake Files\cmake_modules\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
